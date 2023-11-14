@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+  </head>
+  <body>
+    <h1>Register</h1>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Username" />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      -ø
+      name="password"
+      id="password"
+      placeholder="Password"
+    />
+    <label for="confirm_password">Confirm Password</label>
+    <input
+      type="password"
+      name="confirm_password"
+      id="confirm_password"
+      placeholder="Confirm Password"
+    />
+    <button id="register" onclick="register()">Register</button>
+    <button><a href="./login.html">Login</a></button>
+  </body>
+  <script>
+    async function register() {
+      const name = document.getElementById("username");
+      const password = document.getElementById("password");
+      const confirm_password = document.getElementById("confirm_password");
+      if (password.value !== confirm_password.value) {
+        alert("passwords do not match!");
+        return;
+      }
+      await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.value,
+          password: password.value,
+          confirmPassword: confirm_password.value,
+        }),
+      })
+        .then((res) => {
+          alert("user created successfully!");
+          console.log(res);
+        })
+        .catch((err) => {
+          alert("user creation failed!");
+          console.log(err);
+        });
+    }
+  </script>
+</html>

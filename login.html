@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Username" />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="Password"
+    />
+    <button type="submit" onclick="login()">Login</button>
+    <button><a href="./register.html">Register</a></button>
+  </body>
+  <script>
+    async function login() {
+      const name = document.getElementById("username");
+      const password = document.getElementById("password");
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.value,
+          password: password.value,
+        }),
+      });
+      if (response.status === 200) {
+        window.location.href = "./home.html";
+      } else {
+        alert("login failed!");
+      }
+    }
+  </script>
+</html>

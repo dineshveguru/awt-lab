@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rate Conversion</title>
+  </head>
+  <body>
+    <h1>Rate Conversion</h1>
+    <label for="amount">Amount</label>
+    <input type="text" id="amount" placeholder="Enter amount" />
+    <label for="rates">Select Country</label>
+    <select id="rates" onchange="handleDropdown()">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="JPY">JPY</option>
+    </select>
+    <h3>Converted Currency:</h3>
+    <h3 id="converted"></h3>
+  </body>
+  <script>
+    const options = document.getElementById("rates");
+    function handleDropdown() {
+      const amount = document.getElementById("amount").value;
+      const converted = document.getElementById("converted");
+      fetch("http://127.0.0.1:3000/rate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: options.value,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const rate = data.rate;
+          const convertedAmount = amount * rate;
+          converted.innerHTML = convertedAmount;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  </script>
+</html>
